@@ -52,7 +52,8 @@ public class employee {
 
   @Override
   public String toString() {
-    return "Employee:: ID="+this.id+" Name=" + this.name + " Age=" + this.age + " Gender=" + this.gender + " Role=" + this.role;
+    //return "Employee:: ID="+this.id+" Name=" + this.name + " Age=" + this.age + " Gender=" + this.gender + " Role=" + this.role;
+    return toJSON().toString();
   }
 
   public JSONObject toJSON() {

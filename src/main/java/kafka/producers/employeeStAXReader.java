@@ -29,7 +29,7 @@ public class employeeStAXReader {
   public static void main(String[] args) {
     Properties prop = new Properties();
     ClassLoader loader = Thread.currentThread().getContextClassLoader();
-    InputStream stream = loader.getResourceAsStream("kafka.properties");
+    InputStream stream = loader.getResourceAsStream("kafka-producer-employee.properties");
     try {
       prop.load(stream);
 

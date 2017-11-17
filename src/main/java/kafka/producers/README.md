@@ -14,6 +14,8 @@ Java StAX Parser Example to read XML file: https://www.journaldev.com/1191/java-
 
 Convert an XML file to CSV file using javaAsk Question: http://www.tuicode.com/question/58eaa08bba8da7dd0545df04
 
+3. <b>Schema Registry</b> (Confluent): <i>Pendiente</i>
+
 ## Custom (De)Serializes
 
 Kafka - Creating custom serializers. Create Kafka serializers for JSON, Kryo and Smile (by <a href=https://github.com/nielsutrecht/kafka-serializer-example>nielsutrecht)</a>: http://niels.nu/blog/2016/kafka-custom-serializers.html
