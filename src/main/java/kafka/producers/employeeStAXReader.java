@@ -39,10 +39,10 @@ public class employeeStAXReader {
       List<employee> empList = parseXML(fileName);
 
       for(employee emp : empList) {
-        System.out.println(emp.toString());
-
         producer.send(new ProducerRecord<>("employees", Integer.toString(emp.getId()), emp));
         producer.flush();
+
+        System.out.println(emp.toString());
       }
     } catch (IOException e) {
       e.printStackTrace();
