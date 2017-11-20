@@ -1,11 +1,17 @@
 package kafka.serverSocket;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import kafka.producers.xmlClass.employee;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.List;
+import java.util.Properties;
+
+import static kafka.producers.employeeStAXReader.parseXMLStream;
 
 public class serverSocket {
   private static int port = 9090;
@@ -21,9 +27,17 @@ public class serverSocket {
     System.out.println("Listening on port: " + Integer.toString(port));
     int clientNumber = 0;
     ServerSocket listener = new ServerSocket(port);
+
+    Properties prop = new Properties();
+    ClassLoader loader = Thread.currentThread().getContextClassLoader();
+    InputStream stream = loader.getResourceAsStream("kafka-producer-employee.properties");
     try {
+      prop.load(stream);
+
+      Producer<String, employee> producer = new KafkaProducer<>(prop);
+
       while (true) {
-        new xmlListener(listener.accept(), clientNumber++).start();
+        new xmlListener(listener.accept(), clientNumber++, producer).start();
       }
     } finally {
       listener.close();
@@ -36,10 +50,12 @@ public class serverSocket {
   private static class xmlListener extends Thread {
     private Socket socket;
     private int clientNumber;
+    private Producer<String, employee> producer;
 
-    public xmlListener(Socket socket, int clientNumber) {
+    public xmlListener(Socket socket, int clientNumber, Producer<String, employee> producer) {
       this.socket = socket;
       this.clientNumber = clientNumber;
+      this.producer = producer;
       log("NEW connection with client# " + clientNumber + " at " + socket);
     }
 
@@ -71,7 +87,14 @@ public class serverSocket {
           /**
            * Processing message.
            */
+          List<employee> empList = parseXMLStream(input);
 
+          for(employee emp : empList) {
+            producer.send(new ProducerRecord<>("employees", Integer.toString(emp.getId()), emp));
+            producer.flush();
+
+            log(emp.toString());
+          }
 
           /**
            * Receive one message => Close the socket connection.
