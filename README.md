@@ -22,7 +22,7 @@ Start a Zookeeper Server:
 
 Start a Kafka Broker:
 
-    bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
+    $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
     
 Run kafka.consumers.employeeConsumer class.
 
