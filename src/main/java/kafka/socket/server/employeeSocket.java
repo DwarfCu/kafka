@@ -1,4 +1,4 @@
-package kafka.serverSocket;
+package kafka.socket.server;
 
 import kafka.producers.xmlClass.employee;
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -13,7 +13,7 @@ import java.util.Properties;
 
 import static kafka.producers.employeeStAXReader.parseXMLStream;
 
-public class serverSocket {
+public class employeeSocket {
   private static int port = 9090;
   /**
    * Application method to run the server runs in an infinite loop

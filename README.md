@@ -6,11 +6,11 @@
   
     * <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/producers#employeestaxreader">From a file</a> (e.g. resources/employee.xml)
     
-         java -jar ...
+         java ...
          
     * <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/serverSocket">From a socket</a> (e.g. tcp port 9090)
     
-      java -jar ...
+      java ...
 
 2. Custom Kafka Consumers.
 
@@ -24,14 +24,18 @@ Start a Kafka Broker (default configuration):
 
     $KAFKA_HOME/bin/kafka-server-start.sh $KAFKA_HOME/config/server.properties
 
-Run kafka.consumers.employeeConsumer class.
+Create topic (if not created yet):
+
+    kafka-topics.sh --zookeeper localhost:2181 --topic employees --create --replication-factor 1 --partitions 1
+
+Run kafka.consumers.employeeConsumer class:
 
     java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.consumers.employeeConsumer
 
-Run kafka.serverSocket.serverSocket class (port 9090).
+Run kafka.socket.server.employeeSocket class:
 
-    java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.serverSocket.serverSocket
+    java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.socket.server.employeeSocket
 
-Run kafka.messageGenerators.employees class.
+Run kafka.messageGenerators.employees class:
 
     java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.messageGenerators.employees
