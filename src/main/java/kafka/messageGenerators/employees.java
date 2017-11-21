@@ -1,9 +1,6 @@
 package kafka.messageGenerators;
 
-import java.io.BufferedReader;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
-import java.net.Socket;
+import kafka.socket.client.tcpSend;
 import java.util.Random;
 
 public class employees {
@@ -41,33 +38,7 @@ public class employees {
 
       String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Employees><Employee id=\"" + Integer.toString(i) + "\"><age>" + Integer.toString(age) + "</age><name>" + name + "</name><gender>" + gender + "</gender><role>" + role + "</role></Employee></Employees>";
 
-      tcpSend("127.0.0.1", 9090, 5000 , message);
+      String result = new tcpSend().tcpSend("127.0.0.1", 9090, 5000, message);
     }
-  }
-
-  private static String tcpSend(String ip, int port, int timeout, String content)
-  {
-    String ipaddress = ip;
-    int portnumber = port;
-    String sentence;
-    String modifiedSentence;
-    Socket clientSocket;
-    try
-    {
-      clientSocket = new Socket(ipaddress, portnumber);
-      DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
-      BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-      outToServer.writeBytes(content + '\n');
-      clientSocket.setSoTimeout(timeout);
-      modifiedSentence = inFromServer.readLine();
-      clientSocket.close();
-      outToServer.close();
-      inFromServer.close();
-    }
-    catch (Exception exc)
-    {
-      modifiedSentence = "";
-    }
-    return modifiedSentence;
   }
 }
