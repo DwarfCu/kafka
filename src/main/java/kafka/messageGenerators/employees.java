@@ -41,7 +41,7 @@ public class employees {
 
       String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Employees><Employee id=\"" + Integer.toString(i) + "\"><age>" + Integer.toString(age) + "</age><name>" + name + "</name><gender>" + gender + "</gender><role>" + role + "</role></Employee></Employees>";
 
-      tcpSend("192.168.1.201", 9090, 5000 , message);
+      tcpSend("127.0.0.1", 9090, 5000 , message);
     }
   }
 
