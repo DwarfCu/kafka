@@ -1,4 +1,4 @@
-# employeeStAXReader
+# XML Messages
 Example of a Kafka Producer for importing XML messages (e.g. employee class) from a file (parseXMLFile) or from a socket -tcp port 9090- (parseXMLStream).
 
 It's based on the following documents/links:

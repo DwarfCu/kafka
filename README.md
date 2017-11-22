@@ -2,19 +2,12 @@
 
 1. <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/producers">Custom Kafka Producers.</a>
 
-  * XML messages:
-  
-    * <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/producers#employeestaxreader">From a file</a> (e.g. resources/employee.xml)
-    
-         java ...
-         
-    * <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/serverSocket">From a socket</a> (e.g. tcp port 9090)
-    
-      java ...
+2. <a href="https://github.com/DwarfCu/kafka/tree/master/src/main/java/kafka/consumers">Custom Kafka Consumers.</a>
 
-2. Custom Kafka Consumers.
+3. <a href="https://github.com/DwarfCu/kafka/tree/mster/src/main/java/kafka/producers/xmlClass/serialization">Custom (De)Serializers.</a>
 
-## Test Environment
+### XML messages
+##### Demo Environment
 
 Start a Zookeeper Server (default configuration):
 
