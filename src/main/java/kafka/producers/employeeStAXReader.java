@@ -37,7 +37,7 @@ public class employeeStAXReader {
       List<employee> empList = parseXMLFile(fileName);
 
       for(employee emp : empList) {
-        producer.send(new ProducerRecord<>("employees", Integer.toString(emp.getId()), emp));
+        producer.send(new ProducerRecord<>("employeesThread", Integer.toString(emp.getId()), emp));
         producer.flush();
 
         System.out.println(emp.toString());

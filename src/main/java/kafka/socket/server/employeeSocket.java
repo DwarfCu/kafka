@@ -90,7 +90,7 @@ public class employeeSocket {
           List<employee> empList = parseXMLStream(input);
 
           for(employee emp : empList) {
-            producer.send(new ProducerRecord<>("employees", Integer.toString(emp.getId()), emp));
+            producer.send(new ProducerRecord<>("employeesThread", Integer.toString(emp.getId()), emp));
             producer.flush();
 
             log(emp.toString());

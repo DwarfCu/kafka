@@ -20,7 +20,7 @@ public class employeeConsumer {
       prop.load(stream);
 
       KafkaConsumer<String, employee> consumer = new KafkaConsumer<>(prop);
-      consumer.subscribe(Arrays.asList("employees"));
+      consumer.subscribe(Arrays.asList("employeesThread"));
       while (true) {
         ConsumerRecords<String, employee> records = consumer.poll(100);
         for (ConsumerRecord<String, employee> record : records)
