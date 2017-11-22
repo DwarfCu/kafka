@@ -3,9 +3,20 @@ package kafka.messageGenerators;
 import kafka.socket.client.tcpSend;
 import java.util.Random;
 
-public class employees {
+public class employeesThread implements Runnable {
 
-  public static void main(String[] args) {
+  private int numExecutor;
+
+  public employeesThread(int num){ numExecutor = num; }
+
+  @Override
+  public void run() {
+    System.out.println(Thread.currentThread().getName() + " numExecutor# " + numExecutor + " STARTS.");
+    employeesGenerator();
+    System.out.println(Thread.currentThread().getName() + " numExecutor# " + numExecutor + " ENDS.");
+  }
+
+  private void employeesGenerator() {
     int num_messages = 1000;
 
     String name;
@@ -31,14 +42,17 @@ public class employees {
       StringBuilder sb2 = new StringBuilder();
       Random randomRole = new Random();
       for (int j = 0; j < 15; j++) {
-        char c = chars[randomName.nextInt(chars.length)];
+        char c = chars[randomRole.nextInt(chars.length)];
         sb2.append(c);
       }
       role = sb2.toString();
 
       String message = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><Employees><Employee id=\"" + Integer.toString(i) + "\"><age>" + Integer.toString(age) + "</age><name>" + name + "</name><gender>" + gender + "</gender><role>" + role + "</role></Employee></Employees>";
 
-      String result = new tcpSend().tcpSend("127.0.0.1", 9090, 5000, message);
+      new tcpSend().tcpSend("127.0.0.1", 9090, 5000, message);
+
+      System.out.println(Thread.currentThread().getName() + " numExecutor# " + numExecutor + ": " + i + " message sended.");
     }
   }
+
 }

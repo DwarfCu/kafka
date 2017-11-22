@@ -36,6 +36,6 @@ Run kafka.socket.server.employeeSocket class:
 
     java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.socket.server.employeeSocket
 
-Run kafka.messageGenerators.employees class:
+Run kafka.messageGenerators.employeesThreadPool class:
 
-    java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.messageGenerators.employees
+    java -classpath kafka-dwarfcu-examples-1.0-SNAPSHOT.jar kafka.messageGenerators.employeesThreadPool
