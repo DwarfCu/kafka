@@ -1,9 +1,6 @@
 # Kafka DwarfCu Examples
-
 1. <a href="https://github.com/DwarfCu/kafka/tree/master/kafka/src/main/java/kafka/producers">Custom Kafka Producers.</a>
-
 2. <a href="https://github.com/DwarfCu/kafka/tree/master/kafka/src/main/java/kafka/consumers">Custom Kafka Consumers.</a>
-
 3. <a href="https://github.com/DwarfCu/kafka/tree/master/kafka/src/main/java/kafka/producers/xmlClass/serialization">Custom (De)Serializers.</a>
 
 ### XML messages
