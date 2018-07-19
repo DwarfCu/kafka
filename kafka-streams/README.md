@@ -35,8 +35,7 @@ Create topics:
 
     mvn clean package
 
-Launch JAR application:
-java 
+Run Kafka Streams App: LineSplit, Pipe or WordCount.
 
 Start kafka-producer:
 
@@ -54,5 +53,29 @@ Start kafka-consumer:
     /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-wordcount-output --formatter kafka.tools.DefaultMessageFormatter --property print.key=true --property print.value=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 
 ### Example 2) Tutorial Kafka Streams: Low-Level Processor API
+...*pending*...
 
-### Example 3) ...
+### Example 3) Remove duplicated links
+Create topics:
+
+    /usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --topic links-input --create --partitions 1 --replication-factor 1
+    
+    /usr/local/kafka/bin/kafka-topics.sh --zookeeper localhost:2181 --topic links-output --create --partitions 1 --replication-factor 1 --config cleanup.policy=compact
+
+Run Kafka Streams App: RemoveDuplicatedLinks.
+
+Start kafka-producer:
+
+    /usr/local/kafka/bin/kafka-console-producer.sh --broker-list localhost:9092 --topic links-input
+    >http://google.es/
+    >http://google.es/hldafkhfdañhda
+    >http://google.es/dfahttp://google.es/
+    >http://marca.es
+
+Start kafka-consumer:
+
+    /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic links-output --formatter kafka.tools.DefaultMessageFormatter --property print.key=true --property print.value=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer --from-beginning
+    google.es	http://google.es/
+    google.es	http://google.es/hldafkhfdañhda
+    google.es	http://google.es/dfahttp://google.es/
+    marca.es	http://marca.es
