@@ -65,6 +65,13 @@ public class RemoveDuplicatedLinksTests {
   }
 
   @Test
+  public void ftpIsIgnored() {
+    String input = "ftp://ftp.eui.upm.es";
+    pushNewInputRecord(input);
+    assertEquals(readOutput(), null);
+  }
+
+  @Test
   public void validLink() {
     String httpInput = "http://www.strava.com/";
     pushNewInputRecord(httpInput);
