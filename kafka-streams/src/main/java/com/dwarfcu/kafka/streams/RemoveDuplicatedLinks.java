@@ -1,5 +1,6 @@
 package com.dwarfcu.kafka.streams;
 
+import org.apache.commons.validator.routines.UrlValidator;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
@@ -11,13 +12,20 @@ import java.util.Properties;
 
 public class RemoveDuplicatedLinks {
 
+  private boolean URLvalid(String url) {
+    String[] schemes = {"http","https"};
+    UrlValidator urlValidator = new UrlValidator(schemes);
+
+    return urlValidator.isValid(url);
+  }
+
   public Topology createTopology() {
     StreamsBuilder builder = new StreamsBuilder();
 
     KStream<String, String> linksInput = builder.stream("links-input");
 
     KStream<String, String> links = linksInput
-      .filter((key, value) -> value.contains("/"))
+      .filter((key, value) -> URLvalid(value))
       .selectKey((ignoredKey, link) -> link.split("/")[2]);
 
     links.to("links-output", Produced.with(Serdes.String(), Serdes.String()));
