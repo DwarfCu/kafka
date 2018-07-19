@@ -4,6 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.KStream;
+import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 
 import java.util.Properties;
@@ -15,7 +16,9 @@ public class RemoveDuplicatedLinks {
 
     KStream<String, String> linksInput = builder.stream("links-input");
 
-    KStream<String, String> links = linksInput.selectKey((ignoredKey, link) -> link.split("/")[2]);
+    KStream<String, String> links = linksInput
+      .filter((key, value) -> value.contains("/"))
+      .selectKey((ignoredKey, link) -> link.split("/")[2]);
 
     links.to("links-output", Produced.with(Serdes.String(), Serdes.String()));
 
@@ -28,7 +31,7 @@ public class RemoveDuplicatedLinks {
     props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
     props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-    props.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+    props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
     RemoveDuplicatedLinks removeDuplicatedLinks = new RemoveDuplicatedLinks();
 
