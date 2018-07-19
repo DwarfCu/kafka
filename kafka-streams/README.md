@@ -45,13 +45,13 @@ Start kafka-producer:
 Start kafka-consumer:
 
     1) Pipe:
-    /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-pipe-output --formatter kafka.tools.DefaultMessageFormatter --property print.key=true --property print.value=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
+    /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-pipe-output --formatter kafka.tools.DefaultMessageFormatter --property print.value=true --property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
     
     2) LineSplit:
     /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-linesplit-output --formatter kafka.tools.DefaultMessageFormatter --property print.value=true --property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
     
     3) WordCount:
-    /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-pipe-output --formatter kafka.tools.DefaultMessageFormatter --property print.value=true --property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+    /usr/local/kafka/bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic streams-wordcount-output --formatter kafka.tools.DefaultMessageFormatter --property print.key=true --property print.value=true --property key.deserializer=org.apache.kafka.common.serialization.StringDeserializer --property value.deserializer=org.apache.kafka.common.serialization.LongDeserializer
 
 ### Example 2) Tutorial Kafka Streams: Low-Level Processor API
 
