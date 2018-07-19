@@ -10,6 +10,12 @@ import java.util.Arrays;
 import java.util.Properties;
 import java.util.concurrent.CountDownLatch;
 
+/**
+ * In this example, we implement a simple LineSplit program using the high-level Streams DSL
+ * that reads from a source topic "streams-plaintext-input", where the values of messages represent lines of text;
+ * the code split each text line in string into words and then write back into a sink topic "streams-linesplit-output" where
+ * each record represents a single word.
+ */
 public class LineSplit {
   public static void main(String[] args) throws Exception {
     Properties props = new Properties();
