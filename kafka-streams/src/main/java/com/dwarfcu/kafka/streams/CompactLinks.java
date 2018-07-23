@@ -5,12 +5,11 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.*;
 import org.apache.kafka.streams.kstream.KStream;
-import org.apache.kafka.streams.kstream.KTable;
 import org.apache.kafka.streams.kstream.Produced;
 
 import java.util.Properties;
 
-public class RemoveDuplicatedLinks {
+public class CompactLinks {
 
   private boolean URLvalid(String url) {
     String[] schemes = {"http","https"};
@@ -41,7 +40,7 @@ public class RemoveDuplicatedLinks {
     props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
     props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
-    RemoveDuplicatedLinks removeDuplicatedLinks = new RemoveDuplicatedLinks();
+    CompactLinks removeDuplicatedLinks = new CompactLinks();
 
     KafkaStreams streams = new KafkaStreams(removeDuplicatedLinks.createTopology(), props);
     streams.start();

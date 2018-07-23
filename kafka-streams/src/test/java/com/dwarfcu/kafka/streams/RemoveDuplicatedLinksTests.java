@@ -31,7 +31,7 @@ public class RemoveDuplicatedLinksTests {
     config.setProperty(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
     config.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
 
-    RemoveDuplicatedLinks removeDuplicatedLinks = new RemoveDuplicatedLinks();
+    CompactLinks removeDuplicatedLinks = new CompactLinks();
 
     topologyTestDriver = new TopologyTestDriver(removeDuplicatedLinks.createTopology(), config);
   }
