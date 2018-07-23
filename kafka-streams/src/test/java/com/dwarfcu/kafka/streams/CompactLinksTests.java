@@ -16,7 +16,7 @@ import java.util.Properties;
 
 import static org.junit.Assert.assertEquals;
 
-public class RemoveDuplicatedLinksTests {
+public class CompactLinksTests {
   private TopologyTestDriver topologyTestDriver;
 
   private StringSerializer stringSerializer = new StringSerializer();
