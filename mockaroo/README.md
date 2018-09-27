@@ -46,47 +46,75 @@ Events are checked against an schema thanks to **Confluent Schema Registry** ser
 
 #
 
-##### [HowTo] Deploy a Test Environment with Docker
+#### [HowTo] Deploy a Test Environment with Docker and docker-compose.
 
-Create network:
+1. Create *mockaroo* directory.
+
+       bash$ mkdir mockaroo
+
+2. Create **docker-compose.yaml**
+
+       bash$ cd mockaroo
+       bash$ vim docker-compose.yaml
+
+
+    version: "2"
+    services:
+      zookeeper:
+        image: confluentinc/cp-zookeeper:5.0.0
+        environment:
+          - ZOOKEEPER_CLIENT_PORT=2181
+        ports:
+          - "2181:2181"
+        networks:
+          confluent:
+            ipv4_address: 172.18.0.2
+    
+      kafka:
+        image: confluentinc/cp-kafka:5.0.0
+        depends_on:
+          - zookeeper
+        environment:
+          - KAFKA_ZOOKEEPER_CONNECT=zookeper:2181
+          - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://172.18.0.3:9092
+          - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
+        ports:
+          - "9092:9092"
+        networks:
+          confluent:
+            ipv4_address: 172.18.0.3
+
+      schema-registry:
+        image: confluentinc/cp-schema-registry:5.0.0
+        depends_on:
+          - kafka
+        environment:
+          - SCHEMA_REGISTRY_HOST_NAME=schema-registry \
+          - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081 \
+          - SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181
+        ports:
+          - "8081:8081"
+        networks:
+          confluent:
+            ipv4_address: 172.18.0.4
+    
+     networks:
+      confluent:
+        driver: bridge
+        ipam:
+          driver: default
+          config:
+            - subnet: 172.18.0.0/24
+              gateway: 172.18.0.1
+
+Run docker containers.
+
+       bash$ docker-compose up
+
+Edit ***resources/kafka.properties*** file from this project.
 ````
-docker network create confluent
-````
-Start Zookeeper:
-````
-docker run -d \
-    --net=confluent \
-    --name=zookeeper \
-    -p 2181:2181 \
-    -e ZOOKEEPER_CLIENT_PORT=2181 \
-    confluentinc/cp-zookeeper:5.0.0
-````
-Start Kafka:
-````
-docker run -d \
-    --net=confluent \
-    --name=kafka \
-    -p 9092:9092 \
-    -e KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181 \
-    -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092 \
-    -e KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1 \
-    confluentinc/cp-kafka:5.0.0
-````
-Start Schema Registry:
-````
-docker run -d \
-  --net=confluent \
-  --name=schema-registry \
-  -p 8081:8081 \
-  -e SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181 \
-  -e SCHEMA_REGISTRY_HOST_NAME=schema-registry \
-  -e SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081 \
-  confluentinc/cp-schema-registry:5.0.0
-````
-Edit ***resources/kafka.properties***.
-````
-BOOTSTRAP_SERVERS_CONFIG=localhost:9092
-SCHEMA_REGISTRY_URL_CONFIG=http://localhost:8081
+BOOTSTRAP_SERVERS_CONFIG=172.18.0.3:9092
+SCHEMA_REGISTRY_URL_CONFIG=http://172.18.0.4:8081
 CLIENT_ID_CONFIG=<your_client_id>
 TOPIC=<your_topic>
 ````

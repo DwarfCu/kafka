@@ -11,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -47,11 +46,6 @@ public class MockarooProducer {
       for (Object o : mockarooData.getData()) {
         if (o instanceof JSONObject) {
           JSONObject json = (JSONObject) o;
-          System.out.println(o);
-          System.out.println(json.get("name").toString());
-          System.out.println(json.get("amount").toString());
-          System.out.println(json.get("date").toString());
-          System.out.println(json.get("time").toString());
 
           Dataset dataset = Dataset.newBuilder()
               .setName(json.get("name").toString())
@@ -67,11 +61,9 @@ public class MockarooProducer {
               @Override
               public void onCompletion(RecordMetadata recordMetadata, Exception e) {
                 if (e == null) {
-                  System.out.println("[KAFKA] Success!");
-                  System.out.println(recordMetadata.toString());
+                  logger.info("[KAFKA] Record " + json.toString() + " successfully submitted to: Partition " + recordMetadata.partition() + "; Offset: " + recordMetadata.offset());
                 } else {
                   logger.error("[KAFKA] The delivery has failed.", e);
-                  e.printStackTrace();
                 }
               }
             });
