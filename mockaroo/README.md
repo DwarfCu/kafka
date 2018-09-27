@@ -1,6 +1,6 @@
 # Mockaroo Kafka Producer
 
-Many times at many projects the dataset is not available while we are starting to develop, or simply it doesn't exist. This project tries to simulate streaming events.
+This project tries to simulate streaming events due to many times at many projects the dataset is not available while we are starting to develop,  or is not complete or, worst, simply it doesn't exist.
 
 [Mockaroo](https://mockaroo.com/) let you to create an API to get events from a schema that you have defined previously. Then, a Kafka Producer calls your Mockaroo API and pushes the events to a *topic*. Several Kafka Producers can be running at the same time.
 
