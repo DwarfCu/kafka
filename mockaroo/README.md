@@ -31,10 +31,10 @@ Events are checked against an schema thanks to **Confluent Schema Registry** ser
          ]
        }
 
-4. Setup ***resources/kafka.properties*** according to your Confluent-Kafka environment. For
+4. Setup ***resources/kafka.properties*** according to your Confluent-Kafka environment. For BankBalanceDataset example:
  
-       BOOTSTRAP_SERVERS_CONFIG=localhost:9092
-       SCHEMA_REGISTRY_URL_CONFIG=http://localhost:8081
+       BOOTSTRAP_SERVERS_CONFIG=172.18.0.3:9092
+       SCHEMA_REGISTRY_URL_CONFIG=http://172.18.0.4:8081
        CLIENT_ID_CONFIG=MockarooBankBalanceDatasetProducer
        TOPIC=mockarooBankBalanceDataset
        
