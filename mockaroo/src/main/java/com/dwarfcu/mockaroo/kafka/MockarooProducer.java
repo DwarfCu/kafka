@@ -11,6 +11,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -44,16 +45,20 @@ public class MockarooProducer {
       while (true) {
         MockarooData mockarooData = new MockarooData();
 
+        String[] fields = ((String) mockarooData.get("mockaroo.fields")).split(",");
+
         for (Object o : mockarooData.getData()) {
           if (o instanceof JSONObject) {
             JSONObject json = (JSONObject) o;
 
-            Dataset dataset = Dataset.newBuilder()
-                .setName(json.get("name").toString())
-                .setAmount(json.get("amount").toString())
-                .setDate(json.get("date").toString())
-                .setTime(json.get("time").toString())
-                .build();
+            Dataset.Builder builder = Dataset.newBuilder();
+
+            for (String field: fields) {
+              Method method = builder.getClass().getMethod("set" + capitalizeFirstLetter(field), String.class);
+              method.invoke(builder, json.get(field).toString());
+            }
+
+            Dataset dataset = builder.build();
 
             ProducerRecord<String, Dataset> producerRecord = new ProducerRecord<>(topic, dataset);
 
@@ -95,5 +100,12 @@ public class MockarooProducer {
   private static String readFile(String path, Charset encoding) throws IOException {
     byte[] encoded = Files.readAllBytes(Paths.get(path));
     return new String(encoded, encoding);
+  }
+
+  private static String capitalizeFirstLetter(String original) {
+    if (original == null || original.length() == 0) {
+      return original;
+    }
+    return original.substring(0, 1).toUpperCase() + original.substring(1);
   }
 }

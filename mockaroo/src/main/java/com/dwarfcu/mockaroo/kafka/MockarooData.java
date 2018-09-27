@@ -23,7 +23,7 @@ public class MockarooData {
       properties = new Properties();
       properties.load(MockarooData.class.getClassLoader().getResource("mockaroo.properties").openStream());
 
-      URL url = new URL((String) MockarooData.get("mockaroo.url"));
+      URL url = new URL((String) this.get("mockaroo.url"));
 
       dataset = new JSONArray(IOUtils.toString(url, Charset.forName("UTF-8")));
     } catch (MalformedURLException e) {
@@ -33,7 +33,7 @@ public class MockarooData {
     }
   }
 
-  private static Object get(String property) {
+  public Object get(String property) {
     return properties.get(property);
   }
 
