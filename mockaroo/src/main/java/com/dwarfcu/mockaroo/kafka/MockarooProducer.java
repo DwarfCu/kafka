@@ -41,42 +41,44 @@ public class MockarooProducer {
 
       String topic = (String) MockarooProducer.get("TOPIC");
 
-      MockarooData mockarooData = new MockarooData();
+      while (true) {
+        MockarooData mockarooData = new MockarooData();
 
-      for (Object o : mockarooData.getData()) {
-        if (o instanceof JSONObject) {
-          JSONObject json = (JSONObject) o;
+        for (Object o : mockarooData.getData()) {
+          if (o instanceof JSONObject) {
+            JSONObject json = (JSONObject) o;
 
-          Dataset dataset = Dataset.newBuilder()
-              .setName(json.get("name").toString())
-              .setAmount(json.get("amount").toString())
-              .setDate(json.get("date").toString())
-              .setTime(json.get("time").toString())
-              .build();
+            Dataset dataset = Dataset.newBuilder()
+                .setName(json.get("name").toString())
+                .setAmount(json.get("amount").toString())
+                .setDate(json.get("date").toString())
+                .setTime(json.get("time").toString())
+                .build();
 
-          ProducerRecord<String, Dataset> producerRecord = new ProducerRecord<>(topic, dataset);
+            ProducerRecord<String, Dataset> producerRecord = new ProducerRecord<>(topic, dataset);
 
-          try {
-            kafkaProducer.send(producerRecord, new Callback() {
-              @Override
-              public void onCompletion(RecordMetadata recordMetadata, Exception e) {
-                if (e == null) {
-                  logger.info("[KAFKA] Record " + json.toString() + " successfully submitted to: Partition " + recordMetadata.partition() + "; Offset: " + recordMetadata.offset());
-                } else {
-                  logger.error("[KAFKA] The delivery has failed.", e);
+            try {
+              kafkaProducer.send(producerRecord, new Callback() {
+                @Override
+                public void onCompletion(RecordMetadata recordMetadata, Exception e) {
+                  if (e == null) {
+                    logger.info("[KAFKA] Record " + json.toString() + " successfully submitted to: Partition " + recordMetadata.partition() + "; Offset: " + recordMetadata.offset());
+                  } else {
+                    logger.error("[KAFKA] The delivery has failed.", e);
+                  }
                 }
-              }
-            });
-          } catch (SerializationException e) {
-            logger.error("[KAFKA] Error serializing Avro message.", e);
+              });
+            } catch (SerializationException e) {
+              logger.error("[KAFKA] Error serializing Avro message.", e);
+            }
+
+            kafkaProducer.flush();
+
           }
-
-          kafkaProducer.flush();
-
         }
       }
 
-      kafkaProducer.close();
+      // kafkaProducer.close();
 
     } catch (IOException e) {
       logger.error("kafka.properties file does NOT exist!!!", e);
