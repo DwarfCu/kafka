@@ -12,9 +12,6 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Properties;
 
 public class MockarooProducer {
@@ -95,11 +92,6 @@ public class MockarooProducer {
 
   private static Object get(String property) {
     return properties.get(property);
-  }
-
-  private static String readFile(String path, Charset encoding) throws IOException {
-    byte[] encoded = Files.readAllBytes(Paths.get(path));
-    return new String(encoded, encoding);
   }
 
   private static String capitalizeFirstLetter(String original) {
