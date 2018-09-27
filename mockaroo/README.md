@@ -75,7 +75,7 @@ services:
     depends_on:
       - zookeeper
     environment:
-      - KAFKA_ZOOKEEPER_CONNECT=zookeper:2181
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
       - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://172.18.0.3:9092
       - KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
     ports:
