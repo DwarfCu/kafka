@@ -89,8 +89,8 @@ services:
     depends_on:
       - kafka
     environment:
-      - SCHEMA_REGISTRY_HOST_NAME=schema-registry \
-      - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081 \
+      - SCHEMA_REGISTRY_HOST_NAME=schema-registry
+      - SCHEMA_REGISTRY_LISTENERS=http://0.0.0.0:8081
       - SCHEMA_REGISTRY_KAFKASTORE_CONNECTION_URL=zookeeper:2181
     ports:
       - "8081:8081"
